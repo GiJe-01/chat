@@ -1,18 +1,50 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat App</title>
-    <link rel="stylesheet" href="style.css">
+  <title>おしゃれなWebチャット</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #chat { max-width: 600px; margin: 0 auto; padding: 20px; }
+    #messages { list-style: none; padding: 0; }
+    #messages li { padding: 8px; margin-bottom: 10px; border-bottom: 1px solid #ddd; }
+  </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="messages" id="messages"></div>
-        <input type="text" id="messageInput" placeholder="メッセージを入力...">
-        <button onclick="sendMessage()">送信</button>
-    </div>
+  <div id="chat">
+    <input type="text" id="userId" placeholder="ID入力" required>
+    <button onclick="joinChat()">参加</button>
+    <ul id="messages"></ul>
+    <input type="text" id="messageInput" placeholder="メッセージを入力">
+    <button onclick="sendMessage()">送信</button>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let myId;
+
+    socket.on('userId', (id) => {
+      myId = id;
+      alert(`あなたのIDは: ${id}`);
+    });
+
+    socket.on('message', (message) => {
+      const li = document.createElement('li');
+      li.textContent = message;
+      document.getElementById('messages').appendChild(li);
+    });
+
+    function joinChat() {
+      const targetId = document.getElementById('userId').value;
+      socket.emit('join', { target_id: targetId });
+    }
+
+    function sendMessage() {
+      const message = document.getElementById('messageInput').value;
+      const targetId = document.getElementById('userId').value;
+      socket.emit('message', { target_id: targetId, message: message });
+      document.getElementById('messageInput').value = '';
+    }
+  </script>
 </body>
 </html>
