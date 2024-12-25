@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>匿名掲示板</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <h2>パスワードを入力してください</h2>
+            <input type="password" id="passwordInput" placeholder="パスワード">
+            <button onclick="checkPassword()">ログイン</button>
+        </div>
+    </div>
+    <header>
+        <h1>匿名掲示板</h1>
+    </header>
+    <main>
+        <section class="post-form">
+            <textarea id="postContent" placeholder="ここに投稿内容を入力..."></textarea>
+            <button onclick="submitPost()">投稿</button>
+        </section>
+        <section id="posts">
+            <!-- 投稿がここに表示されます -->
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
